@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+--color-azul1: #03045E;
+--color-azul2: #023E8A;
+--color-azul3: #0077B6;
+--color-azul4: #0096C7;
+--color-azul5: #00B4D8;
+--color-azul6: #48CAE4; /* nuevo (intermedio entre 5 y 8) */
+--color-azul7: #90E0EF; /* nuevo (transición antes de 9) */
+--color-azul8: #CAF0F8;
+--color-azul9: #ADE8F4;
+}
+
+/* NProgress removed */
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Dark mode base tokens */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(to bottom right, #020617, #012a46 60%, #023e8a 100%);
+    color: #edf6f9;
+  }
+  .btn-primary { @apply ring-azul6/40; }
+  .btn-outline { @apply border-white/30; }
+}
+
+/* Custom button classes */
+.btn-primary {
+  @apply rounded-full bg-azul4 px-8 py-3 text-lg font-semibold text-white shadow-lg ring-1 ring-azul5/40 transition hover:bg-azul5 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
+}
+
+.btn-outline {
+  @apply rounded-full border border-white/25 bg-white/10 px-8 py-3 text-lg font-semibold text-white backdrop-blur-sm transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-outline { @apply transition-none hover:scale-100; }
+}
+
+/* Focus improvements */
+*:focus-visible {
+  outline: 2px solid theme('colors.azul4');
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Typography improvements */
+.drop-shadow-text {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Utility for parallax layers */
+.parallax-layer[data-depth="1"] { transform: translateZ(0); }
+.supports-no-transforms .parallax-layer { transform: none !important; }
