@@ -57,26 +57,39 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  // Efecto para detectar scroll con throttle mejorado
+  // Efecto para detectar scroll con throttle mejorado y optimizado
   useEffect(() => {
     let ticking = false;
+    let lastScrollTime = 0;
+    
     const handleScroll = () => {
       if (ticking) return;
+      
+      const now = performance.now();
+      if (now - lastScrollTime < 16) return; // Limitar a 60fps
+      
       ticking = true;
+      lastScrollTime = now;
+      
       requestAnimationFrame(() => {
         const y = window.scrollY || 0;
-        setScrolled(y > 20);
+        const newScrolled = y > 20;
+        
+        // Solo actualizar si hay cambio real
+        if (newScrolled !== scrolled) {
+          setScrolled(newScrolled);
+        }
 
-        // Mejores transiciones de header
+        // Optimizar transiciones de header con menos actualizaciones
         if (y < 20) {
-          setShowHeader(true);
+          if (!showHeader) setShowHeader(true);
         } else {
           const goingDown = y > lastY.current;
           const scrollDelta = Math.abs(y - lastY.current);
           
-          if (goingDown && y > 100 && scrollDelta > 5) {
+          if (goingDown && y > 100 && scrollDelta > 8 && showHeader) {
             setShowHeader(false);
-          } else if (!goingDown && scrollDelta > 10) {
+          } else if (!goingDown && scrollDelta > 15 && !showHeader) {
             setShowHeader(true);
           }
         }
@@ -87,7 +100,7 @@ export default function Header() {
     
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [scrolled, showHeader]);
 
   // Cerrar menú con Escape y clicks fuera - Mejorado
   useEffect(() => {
@@ -181,12 +194,13 @@ export default function Header() {
         }}
         transition={{ 
           type: "spring", 
-          stiffness: 300, 
-          damping: 30,
-          opacity: { duration: 0.2 }
+          stiffness: 400, 
+          damping: 40,
+          mass: 0.8,
+          velocity: 2
         }}
         className={`
-          fixed top-0 z-50 w-full transition-all duration-300 ease-out
+          fixed top-0 z-50 w-full transition-colors duration-200 ease-out will-change-transform
           ${(scrolled || open)
             ? "bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200/50" 
             : "bg-gradient-to-r from-azul1/90 via-azul2/90 to-azul3/90 backdrop-blur-md"
@@ -195,38 +209,38 @@ export default function Header() {
         role="banner"
       >
         <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-6 lg:py-5">
-          {/* Logo mejorado */}
+          {/* Logo mejorado con animaciones optimizadas */}
           <m.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.5 }}
           >
             <Link 
               href="/" 
               aria-label="Inicio PequeChat" 
-              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60 rounded-lg p-1"
+              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60 rounded-lg p-1 will-change-transform"
             >
-              <div className="relative">
+              <div className="relative will-change-transform">
                 <Image
                   src="/PequeLogo.png"
                   alt="Logo PequeChat"
                   width={40}
                   height={40}
                   priority
-                  className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                  className="transition-transform duration-200 ease-out group-hover:scale-105 group-hover:rotate-2 will-change-transform"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-azul2/20 to-azul3/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-azul2/20 to-azul3/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </div>
               <div className="flex flex-col">
                 <span className={`
-                  text-xl font-bold tracking-tight transition-all duration-300
+                  text-xl font-bold tracking-tight transition-colors duration-200 ease-out
                   ${scrolled ? "text-azul1" : "text-white"}
                   group-hover:text-azul3
                 `}>
                   PequeChat
                 </span>
                 <span className={`
-                  text-xs font-medium transition-all duration-300
+                  text-xs font-medium transition-colors duration-200 ease-out
                   ${scrolled ? "text-gray-500" : "text-white/70"}
                 `}>
                   Chat Seguro
@@ -235,7 +249,7 @@ export default function Header() {
             </Link>
           </m.div>
 
-          {/* Desktop Navigation mejorada */}
+          {/* Desktop Navigation optimizada */}
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Navegación principal">
             {navItems.map(({ href, label }, index) => (
               <m.div
@@ -243,20 +257,20 @@ export default function Header() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  delay: index * 0.1 + 0.2,
-                  duration: 0.4,
+                  delay: index * 0.05 + 0.1,
+                  duration: 0.3,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
               >
                 <Link
                   href={href}
                   className={`
-                    relative px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-lg
+                    relative px-4 py-2 text-sm font-semibold transition-colors duration-200 ease-out rounded-lg will-change-transform
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60
                     ${scrolled 
-                      ? "text-gray-700 hover:text-azul3 hover:bg-azul1/10" 
-                      : "text-white/90 hover:text-white hover:bg-white/10"
+                      ? "text-gray-700 hover:text-azul3 hover:bg-azul1/8" 
+                      : "text-white/90 hover:text-white hover:bg-white/8"
                     }
                   `}
                   aria-current={pathname === href ? "page" : undefined}
@@ -265,29 +279,29 @@ export default function Header() {
                   {pathname === href && (
                     <m.div
                       layoutId="desktop-active-indicator"
-                      className="absolute inset-0 bg-azul3/20 rounded-lg border-2 border-azul3/40"
-                      transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                      className="absolute inset-0 bg-azul3/15 rounded-lg border border-azul3/30"
+                      transition={{ type: "spring", stiffness: 600, damping: 35 }}
                     />
                   )}
                 </Link>
               </m.div>
             ))}
 
-            {/* CTA Button mejorado */}
+            {/* CTA Button optimizado */}
             <m.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              transition={{ delay: 0.2, duration: 0.3, ease: "easeOut" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <a
                 href="http://localhost:5173/login"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`
-                  group inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold
-                  transition-all duration-300 shadow-lg hover:shadow-xl
+                  group inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold will-change-transform
+                  transition-all duration-200 ease-out shadow-lg hover:shadow-xl
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60 focus-visible:ring-offset-2
                   ${scrolled 
                     ? "bg-gradient-to-r from-azul3 to-azul2 text-white hover:from-azul2 hover:to-azul1" 
@@ -299,20 +313,20 @@ export default function Header() {
                 <span>Iniciar Sesión</span>
                 <ArrowRight 
                   size={16} 
-                  className="transition-transform duration-300 group-hover:translate-x-1" 
+                  className="transition-transform duration-200 ease-out group-hover:translate-x-0.5" 
                 />
               </a>
             </m.div>
           </nav>
 
-          {/* Mobile Menu Button mejorado */}
+          {/* Mobile Menu Button optimizado */}
           <button
             type="button"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
             onClick={toggleMenu}
             className={`
-              lg:hidden relative p-3 rounded-xl transition-all duration-300 z-[60]
+              lg:hidden relative p-3 rounded-xl transition-colors duration-200 ease-out z-[60] will-change-transform
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60
               ${scrolled 
                 ? "text-gray-700 hover:bg-gray-100 hover:text-azul3" 
@@ -351,21 +365,22 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Navigation mejorada */}
+      {/* Mobile Navigation optimizada - Slide desde derecha hacia izquierda */}
       <AnimatePresence mode="wait">
         {open && (
           <m.div
             ref={menuRef}
             initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+            animate={{ x: "0%", opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ 
               type: "spring", 
-              stiffness: 300, 
+              stiffness: 400, 
               damping: 30,
-              opacity: { duration: 0.2 }
+              mass: 0.7,
+              velocity: 2
             }}
-            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/98 backdrop-blur-xl shadow-2xl z-[55] lg:hidden overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/98 backdrop-blur-xl shadow-2xl z-[55] lg:hidden overflow-y-auto will-change-transform"
             style={{ touchAction: 'pan-y' }}
           >
             {/* Header del menú móvil */}
@@ -386,7 +401,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="p-2 rounded-lg text-gray-500 hover:text-azul3 hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-lg text-gray-500 hover:text-azul3 hover:bg-gray-100 transition-colors duration-200"
                 aria-label="Cerrar menú"
               >
                 <X size={20} />
@@ -396,53 +411,67 @@ export default function Header() {
             {/* Contenido del menú */}
             <nav className="flex-1 px-6 py-8" aria-label="Menú móvil">
               <ul className="space-y-2">
-                {navItems.map(({ href, label }) => (
-                  <li key={href}>
+                {navItems.map(({ href, label }, index) => (
+                  <m.li
+                    key={href}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ 
+                      delay: index * 0.05 + 0.1,
+                      duration: 0.3,
+                      ease: "easeOut"
+                    }}
+                  >
                     <Link
                       href={href}
                       onClick={() => setOpen(false)}
                       className={`
-                        relative group flex items-center gap-4 px-4 py-4 rounded-xl text-base font-semibold
-                        transition-all duration-300 hover:bg-azul1/10 hover:text-azul3
+                        relative group flex items-center gap-4 px-4 py-4 rounded-xl text-base font-semibold will-change-transform
+                        transition-colors duration-200 ease-out hover:bg-azul1/8 hover:text-azul3
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60
                         ${pathname === href 
-                          ? "text-azul3 bg-azul1/10 shadow-sm" 
+                          ? "text-azul3 bg-azul1/8 shadow-sm" 
                           : "text-gray-700"
                         }
                       `}
                       aria-current={pathname === href ? "page" : undefined}
                     >
                       <div className={`
-                        w-2 h-2 rounded-full transition-all duration-300
+                        w-2 h-2 rounded-full transition-colors duration-200
                         ${pathname === href ? "bg-azul3" : "bg-gray-300 group-hover:bg-azul3"}
                       `} />
                       <span className="flex-1">{label}</span>
                       <ArrowRight 
                         size={16} 
-                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1" 
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-200 transform group-hover:translate-x-0.5" 
                       />
                       {pathname === href && (
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-azul3 rounded-r-full" />
                       )}
                     </Link>
-                  </li>
+                  </m.li>
                 ))}
               </ul>
 
-              {/* CTA en menú móvil */}
-              <div className="mt-8 pt-6 border-t border-gray-200/50">
+              {/* CTA en menú móvil optimizado */}
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+                className="mt-8 pt-6 border-t border-gray-200/50"
+              >
                 <a
                   href="http://localhost:5173/login"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
-                  className="group flex items-center justify-center gap-3 w-full rounded-xl bg-gradient-to-r from-azul3 to-azul2 px-6 py-4 text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60"
+                  className="group flex items-center justify-center gap-3 w-full rounded-xl bg-gradient-to-r from-azul3 to-azul2 px-6 py-4 text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul4/60 will-change-transform"
                   aria-label="Iniciar sesión en PequeChat"
                 >
                   <span>Iniciar Sesión</span>
                   <ArrowRight 
                     size={18} 
-                    className="transition-transform duration-300 group-hover:translate-x-1" 
+                    className="transition-transform duration-200 group-hover:translate-x-0.5" 
                   />
                 </a>
                 
@@ -451,13 +480,13 @@ export default function Header() {
                   ¿Nuevo en PequeChat?{" "}
                   <button 
                     type="button"
-                    className="text-azul3 font-medium hover:underline focus:outline-none focus:underline"
+                    className="text-azul3 font-medium hover:underline focus:outline-none focus:underline transition-colors duration-200"
                     onClick={() => setOpen(false)}
                   >
                     Conoce más
                   </button>
                 </p>
-              </div>
+              </m.div>
             </nav>
 
             {/* Footer del menú móvil */}

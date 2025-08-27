@@ -84,7 +84,7 @@ export default function AboutPage() {
         {/* Scrim superior para contraste con el Header */}
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-azul9/80 via-azul8/50 to-transparent" />
 
-        {/* Mesh gradient animado (4 blobs) */}
+        {/* Mesh gradient animado optimizado (4 blobs) */}
         <div className="absolute inset-0 overflow-hidden motion-reduce:hidden">
           <m.div
             aria-hidden
@@ -94,7 +94,7 @@ export default function AboutPage() {
                 "radial-gradient(closest-side, rgba(59,130,246,0.22), transparent 65%)",
             }}
             animate={{ x: [0, 36, 0], y: [0, -24, 0], scale: [1, 1.05, 1] }}
-            transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
           />
           <m.div
             aria-hidden
@@ -105,10 +105,11 @@ export default function AboutPage() {
             }}
             animate={{ x: [0, -40, 0], y: [0, 18, 0], scale: [1, 0.98, 1] }}
             transition={{
-              duration: 34,
-              delay: 3,
+              duration: 45,
+              delay: 5,
               repeat: Infinity,
               ease: "easeInOut",
+              repeatType: "reverse"
             }}
           />
           <m.div
@@ -120,10 +121,11 @@ export default function AboutPage() {
             }}
             animate={{ x: [0, 24, 0], y: [0, -12, 0], scale: [1, 1.02, 1] }}
             transition={{
-              duration: 38,
-              delay: 6,
+              duration: 50,
+              delay: 10,
               repeat: Infinity,
               ease: "easeInOut",
+              repeatType: "reverse"
             }}
           />
           <m.div
@@ -135,10 +137,11 @@ export default function AboutPage() {
             }}
             animate={{ x: [0, -22, 0], y: [0, 14, 0], scale: [1, 1.02, 1] }}
             transition={{
-              duration: 42,
-              delay: 1.5,
+              duration: 55,
+              delay: 2,
               repeat: Infinity,
               ease: "easeInOut",
+              repeatType: "reverse"
             }}
           />
         </div>
@@ -160,23 +163,23 @@ export default function AboutPage() {
       </div>
 
       <div className="relative z-10 space-y-24 pt-[20vh] pb-16">
-        {/* Hero Section (mismo estilo de Home en tipografía/colores) */}
+        {/* Hero Section optimizado */}
         <header className="text-center space-y-6 relative overflow-hidden">
           <m.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-            className="relative z-10 text-4xl md:text-6xl font-black bg-gradient-to-r from-azul1 via-azul2 to-azul3 bg-clip-text text-transparent"
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="relative z-10 text-4xl md:text-6xl font-black bg-gradient-to-r from-azul1 via-azul2 to-azul3 bg-clip-text text-transparent will-change-transform"
           >
             Quiénes Somos
           </m.h1>
           <m.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.08, duration: 0.55, ease: "easeOut" }}
-            className="relative z-10 mx-auto max-w-3xl text-lg md:text-xl text-azul2/90 px-[5vh]"
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ delay: 0.1, duration: 0.4, ease: "easeOut" }}
+            className="relative z-10 mx-auto max-w-3xl text-lg md:text-xl text-azul2/90 px-[5vh] will-change-transform"
           >
             Somos un equipo de estudiantes de Ingeniería en Sistemas de
             Información en la UTN – FRC, construyendo PequeChat, la plataforma
@@ -184,14 +187,14 @@ export default function AboutPage() {
           </m.p>
         </header>
 
-        {/* Nuestro Equipo */}
+        {/* Nuestro Equipo optimizado */}
         <section className="container mx-auto px-6 max-w-7xl">
           <m.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="text-center text-3xl md:text-4xl font-black mb-12 bg-gradient-to-r from-azul1 to-azul3 bg-clip-text text-transparent"
+            viewport={{ once: true, margin: "-20%" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="text-center text-3xl md:text-4xl font-black mb-12 bg-gradient-to-r from-azul1 to-azul3 bg-clip-text text-transparent will-change-transform"
           >
             Nuestro Equipo
           </m.h2>
@@ -200,33 +203,33 @@ export default function AboutPage() {
             {team.map(({ name, role, avatar }, index) => (
               <m.article
                 key={name}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-20%" }}
                 transition={{
                   delay: index * 0.05,
-                  duration: 0.45,
+                  duration: 0.3,
                   ease: "easeOut",
                 }}
                 whileHover={{
-                  y: -4,
+                  y: -3,
                   scale: 1.01,
-                  transition: { duration: 0.18, ease: "easeOut" },
+                  transition: { duration: 0.15, ease: "easeOut" },
                 }}
-                className="group flex flex-col items-center rounded-3xl bg-white/90 backdrop-blur-sm border border-azul5/20 p-6 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 will-change-transform"
+                className="group flex flex-col items-center rounded-3xl bg-white/90 backdrop-blur-sm border border-azul5/20 p-6 space-y-4 shadow-lg hover:shadow-xl transition-shadow duration-200 will-change-transform"
               >
-                <div className="relative overflow-hidden rounded-full ring-4 ring-azul8/50 group-hover:ring-azul4/50 transition-all duration-300">
+                <div className="relative overflow-hidden rounded-full ring-4 ring-azul8/50 group-hover:ring-azul4/50 transition-colors duration-200">
                   <Image
                     src={avatar}
                     alt={name}
                     width={120}
                     height={120}
-                    className="rounded-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform"
+                    className="rounded-full object-cover transition-transform duration-300 group-hover:scale-105 will-change-transform"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-azul3/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-azul3/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full" />
                 </div>
                 <div className="text-center space-y-2">
-                  <h3 className="text-base md:text-lg font-bold text-azul1 group-hover:text-azul2 transition-colors duration-300">
+                  <h3 className="text-base md:text-lg font-bold text-azul1 group-hover:text-azul2 transition-colors duration-200">
                     {name}
                   </h3>
                   <p className="text-sm text-azul3 font-semibold bg-azul8/30 px-3 py-1 rounded-full">
