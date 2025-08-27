@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { IconType } from "react-icons";
 import { FaReact, FaNodeJs, FaDocker } from "react-icons/fa";
 import {
@@ -15,6 +12,8 @@ import {
   SiExpress,
   SiFramer,
 } from "react-icons/si";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const team = [
   {
@@ -54,55 +53,25 @@ const techs: Tech[] = [
 ];
 
 export default function AboutPage() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const autoplay = Autoplay({
-    delay: 3000,
-    stopOnInteraction: true,
-    stopOnMouseEnter: true,
-    playOnInit: true,
-  });
+  // Configuración del carousel con autoplay
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
+    { 
       loop: true,
-      align: "start",
+      align: 'start',
+      containScroll: 'trimSnaps',
       dragFree: false,
-      containScroll: "trimSnaps",
       skipSnaps: false,
+      duration: 60
     },
-    [autoplay]
+    [Autoplay({ delay: 2500, stopOnInteraction: false, stopOnMouseEnter: false, playOnInit: true })]
   );
 
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    setScrollSnaps(emblaApi.scrollSnapList());
-    onSelect();
-    emblaApi.on("select", onSelect);
-    const onResize = () => emblaApi.reInit();
-    window.addEventListener("resize", onResize);
-    return () => {
-      emblaApi.off("select", onSelect);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [emblaApi, onSelect]);
-
-  const scrollPrev = useCallback(
-    () => emblaApi && emblaApi.scrollPrev(),
-    [emblaApi]
-  );
-  const scrollNext = useCallback(
-    () => emblaApi && emblaApi.scrollNext(),
-    [emblaApi]
-  );
-  const scrollTo = useCallback(
-    (index: number) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
-  );
+  // Reiniciar autoplay cuando el mouse sale del carousel
+  const handleMouseLeave = () => {
+    if (emblaApi) {
+      emblaApi.plugins().autoplay?.play();
+    }
+  };
 
   return (
     <main className="min-h-screen  bg-gradient-to-br from-azul8 via-white to-azul8/50 overflow-x-hidden">
@@ -116,25 +85,25 @@ export default function AboutPage() {
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-azul9/80 via-azul8/50 to-transparent" />
 
         {/* Mesh gradient animado (4 blobs) */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
+        <div className="absolute inset-0 overflow-hidden motion-reduce:hidden">
+          <m.div
             aria-hidden
-            className="absolute w-[42rem] h-[42rem] -top-40 -left-40 rounded-full blur-3xl"
+            className="absolute w-[42rem] h-[42rem] -top-40 -left-40 rounded-full blur-3xl will-change-transform max-sm:hidden"
             style={{
               background:
                 "radial-gradient(closest-side, rgba(59,130,246,0.22), transparent 65%)",
             }}
-            animate={{ x: [0, 40, 0], y: [0, -30, 0], scale: [1, 1.06, 1] }}
+            animate={{ x: [0, 36, 0], y: [0, -24, 0], scale: [1, 1.05, 1] }}
             transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
+          <m.div
             aria-hidden
-            className="absolute w-[36rem] h-[36rem] top-1/3 -right-40 rounded-full blur-3xl"
+            className="absolute w-[36rem] h-[36rem] top-1/3 -right-40 rounded-full blur-3xl will-change-transform max-sm:hidden"
             style={{
               background:
                 "radial-gradient(closest-side, rgba(56,189,248,0.20), transparent 65%)",
             }}
-            animate={{ x: [0, -45, 0], y: [0, 20, 0], scale: [1, 0.97, 1] }}
+            animate={{ x: [0, -40, 0], y: [0, 18, 0], scale: [1, 0.98, 1] }}
             transition={{
               duration: 34,
               delay: 3,
@@ -142,14 +111,14 @@ export default function AboutPage() {
               ease: "easeInOut",
             }}
           />
-          <motion.div
+          <m.div
             aria-hidden
-            className="absolute w-[38rem] h-[38rem] bottom-[-10rem] left-1/4 rounded-full blur-3xl"
+            className="absolute w-[38rem] h-[38rem] bottom-[-10rem] left-1/4 rounded-full blur-3xl will-change-transform max-sm:hidden"
             style={{
               background:
                 "radial-gradient(closest-side, rgba(14,165,233,0.16), transparent 65%)",
             }}
-            animate={{ x: [0, 30, 0], y: [0, -15, 0], scale: [1, 1.03, 1] }}
+            animate={{ x: [0, 24, 0], y: [0, -12, 0], scale: [1, 1.02, 1] }}
             transition={{
               duration: 38,
               delay: 6,
@@ -157,14 +126,14 @@ export default function AboutPage() {
               ease: "easeInOut",
             }}
           />
-          <motion.div
+          <m.div
             aria-hidden
-            className="absolute w-[40rem] h-[40rem] bottom-[-12rem] right-1/3 rounded-full blur-3xl"
+            className="absolute w-[40rem] h-[40rem] bottom-[-12rem] right-1/3 rounded-full blur-3xl will-change-transform max-sm:hidden"
             style={{
               background:
                 "radial-gradient(closest-side, rgba(99,102,241,0.14), transparent 65%)",
             }}
-            animate={{ x: [0, -25, 0], y: [0, 18, 0], scale: [1, 1.02, 1] }}
+            animate={{ x: [0, -22, 0], y: [0, 14, 0], scale: [1, 1.02, 1] }}
             transition={{
               duration: 42,
               delay: 1.5,
@@ -190,62 +159,61 @@ export default function AboutPage() {
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-azul9/15 to-transparent" />
       </div>
 
-      <div className="relative z-10 space-y-24 pt-24 pb-16">
+      <div className="relative z-10 space-y-24 pt-[20vh] pb-16">
         {/* Hero Section (mismo estilo de Home en tipografía/colores) */}
         <header className="text-center space-y-6 relative overflow-hidden">
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
+          <m.h1
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             className="relative z-10 text-4xl md:text-6xl font-black bg-gradient-to-r from-azul1 via-azul2 to-azul3 bg-clip-text text-transparent"
           >
             Quiénes Somos
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          </m.h1>
+          <m.p
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
-            className="relative z-10 mx-auto max-w-3xl text-lg md:text-xl text-azul2/90"
+            transition={{ delay: 0.08, duration: 0.55, ease: "easeOut" }}
+            className="relative z-10 mx-auto max-w-3xl text-lg md:text-xl text-azul2/90 px-[5vh]"
           >
             Somos un equipo de estudiantes de Ingeniería en Sistemas de
             Información en la UTN – FRC, construyendo PequeChat, la plataforma
             de mensajería más segura para niños.
-          </motion.p>
+          </m.p>
         </header>
 
-        {/* Nuestro Equipo (restaurado) */}
+        {/* Nuestro Equipo */}
         <section className="container mx-auto px-6 max-w-7xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+          <m.h2
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-center text-3xl md:text-4xl font-black mb-12 bg-gradient-to-r from-azul1 to-azul3 bg-clip-text text-transparent"
           >
             Nuestro Equipo
-          </motion.h2>
+          </m.h2>
 
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {team.map(({ name, role, avatar }, index) => (
-              <motion.article
+              <m.article
                 key={name}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{
-                  delay: index * 0.06,
-                  duration: 0.55,
+                  delay: index * 0.05,
+                  duration: 0.45,
                   ease: "easeOut",
                 }}
                 whileHover={{
-                  y: -6,
-                  rotate: -0.5,
-                  scale: 1.02,
-                  transition: { duration: 0.22, ease: "easeOut" },
+                  y: -4,
+                  scale: 1.01,
+                  transition: { duration: 0.18, ease: "easeOut" },
                 }}
-                className="group flex flex-col items-center rounded-3xl bg-white/90 backdrop-blur-sm border border-azul5/20 p-6 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="group flex flex-col items-center rounded-3xl bg-white/90 backdrop-blur-sm border border-azul5/20 p-6 space-y-4 shadow-lg hover:shadow-xl transition-all duration-300 will-change-transform"
               >
                 <div className="relative overflow-hidden rounded-full ring-4 ring-azul8/50 group-hover:ring-azul4/50 transition-all duration-300">
                   <Image
@@ -253,7 +221,7 @@ export default function AboutPage() {
                     alt={name}
                     width={120}
                     height={120}
-                    className="rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="rounded-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-azul3/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
                 </div>
@@ -265,140 +233,99 @@ export default function AboutPage() {
                     {role}
                   </p>
                 </div>
-              </motion.article>
+              </m.article>
             ))}
           </div>
         </section>
 
-        {/* Stack Tecnológico (restaurado con los mismos colores/typo de Home) */}
-        <section className="container mx-auto px-6 max-w-7xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+        {/* Stack Tecnológico - Carousel Infinito con Embla */}
+        <section className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <m.h2
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center text-3xl md:text-4xl font-black mb-10 bg-gradient-to-r from-azul1 via-azul2 to-azul3 bg-clip-text text-transparent"
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="text-center text-2xl sm:text-3xl md:text-4xl font-black mb-8 sm:mb-12 bg-gradient-to-r from-azul1 via-azul2 to-azul3 bg-clip-text text-transparent"
           >
             Stack Tecnológico
-          </motion.h2>
+          </m.h2>
 
-          {/* Carrusel accesible con controles y paginación */}
-          <div
-            className="relative"
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Stack Tecnológico"
-          >
-            <div
-              ref={emblaRef}
-              className="embla mx-auto w-full overflow-hidden focus:outline-none touch-pan-y select-none"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "ArrowLeft") scrollPrev();
-                if (e.key === "ArrowRight") scrollNext();
-              }}
-            >
-              <div className="embla__container flex gap-6 py-6 will-change-transform">
-                {techs.map(({ name, Icon }, i) => (
-                  <motion.div
-                    key={name}
-                    className="embla__slide flex-none min-w-[220px] sm:min-w-[260px] md:min-w-[280px] lg:min-w-[300px] p-3"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      delay: i * 0.05,
-                      duration: 0.5,
-                      ease: "easeOut",
-                    }}
-                  >
-                    <motion.div
-                      className="relative flex flex-col items-center justify-center rounded-2xl bg-white/75 backdrop-blur-sm border border-azul5/30 p-6 shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer"
-                      whileHover={{
-                        y: -4,
-                        transition: { duration: 0.25, ease: "easeOut" },
-                      }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-azul8/15 to-azul9/15 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <Icon
-                        size={56}
-                        className="relative z-10 text-azul2 group-hover:text-azul1 transition-colors duration-300"
-                        aria-label={name}
-                      />
-                      <span className="mt-3 text-azul2/90 text-sm font-medium">
-                        {name}
-                      </span>
-                    </motion.div>
-                  </motion.div>
-                ))}
+            {/* Embla Carousel Container */}
+            <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-azul8/40 via-azul8/15 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-azul8/40 via-azul8/15 to-transparent z-10 pointer-events-none" />
+
+            <div className="overflow-hidden" ref={emblaRef} onMouseLeave={handleMouseLeave}>
+              <div className="flex">
+              {/* Duplicamos las tecnologías para efecto infinito */}
+              {[...techs, ...techs].map(({ name, Icon }, index) => (
+              <div
+              key={`tech-${index}`}
+              className="flex-[0_0_auto] min-w-0 mr-3 sm:mr-6 md:mr-8"
+              >
+              <m.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  delay: (index % techs.length) * 0.1,
+                  duration: 0.4,
+                  ease: "easeOut"
+                }}
+                whileHover={{
+                  y: -8,
+                  scale: 1.05,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
+                className="group relative flex flex-col items-center justify-center rounded-xl sm:rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/80 via-white/70 to-white/60 backdrop-blur-xl border border-azul5/15 hover:border-azul4/30 p-4 sm:p-8 md:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-[16vh] min-h-[140px] sm:h-[18vh] sm:min-h-[160px] w-32 sm:w-44 md:w-56 will-change-transform"
+              >
+                {/* Efecto de brillo animado */}
+                <div className="absolute inset-0 bg-gradient-to-br from-azul8/3 via-azul7/6 to-azul9/8 rounded-xl sm:rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                
+                {/* Overlay con gradiente dinámico más sutil */}
+                <div className="absolute inset-0 bg-gradient-to-t from-azul3/3 via-transparent to-azul2/3 rounded-xl sm:rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Icono con animación mejorada */}
+                <m.div
+                  whileHover={{ 
+                    rotate: [0, -5, 5, 0],
+                    transition: { duration: 0.4, ease: "easeInOut" }
+                  }}
+                  className="relative z-10 mb-2 sm:mb-4 md:mb-5"
+                >
+                  <Icon
+                    className="text-azul2 group-hover:text-azul1 transition-all duration-300 w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 drop-shadow-sm"
+                    aria-label={name}
+                  />
+                </m.div>
+                
+                {/* Texto con tipografía mejorada */}
+                <span className="relative z-10 text-azul2/90 group-hover:text-azul1 text-sm sm:text-base md:text-lg font-semibold text-center leading-tight transition-colors duration-300 px-1">
+                  {name}
+                </span>
+                
+                {/* Indicador de interacción sutil */}
+                <div className="absolute bottom-2 sm:bottom-3 left-1/2 transform -translate-x-1/2 w-4 sm:w-8 h-0.5 bg-gradient-to-r from-transparent via-azul4/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+              </m.div>
+              </div>
+              ))}
               </div>
             </div>
-
-            {/* Controles */}
-            <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex items-center justify-between px-2 pointer-events-none z-20">
-              <button
-                type="button"
-                aria-label="Anterior"
-                onClick={scrollPrev}
-                className="hidden sm:inline-flex pointer-events-auto items-center justify-center w-10 h-10 rounded-full bg-white/80 backdrop-blur border border-azul7/40 shadow hover:shadow-md text-azul2 hover:text-azul1 transition -ml-15"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                <span className="sr-only">Anterior</span>
-              </button>
-              <button
-                type="button"
-                aria-label="Siguiente"
-                onClick={scrollNext}
-                className="hidden sm:inline-flex pointer-events-auto items-center justify-center w-10 h-10 rounded-full bg-white/80 backdrop-blur border border-azul7/40 shadow hover:shadow-md text-azul2 hover:text-azul1 transition -mr-15"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-                <span className="sr-only">Siguiente</span>
-              </button>
             </div>
 
-            {/* Dots */}
-            <div className="mt-4 flex justify-center gap-2">
-              {scrollSnaps.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Ir al slide ${i + 1}`}
-                  onClick={() => scrollTo(i)}
-                  aria-current={selectedIndex === i ? "true" : undefined}
-                  className={`h-2.5 rounded-full transition-all ${
-                    selectedIndex === i ? "w-6 bg-azul3" : "w-2.5 bg-azul8"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+          {/* Descripción adicional */}
+          <m.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
+            className="text-center text-sm sm:text-base text-azul2/80 mt-8 sm:mt-12 max-w-2xl mx-auto px-4"
+          >
+            Utilizamos tecnologías modernas y robustas para garantizar la mejor experiencia de usuario y la máxima seguridad en nuestra plataforma.
+          </m.p>
         </section>
 
-        {/* Sección de seguimiento eliminada a pedido; la página queda más ligera y enfocada */}
+        {/* Sección de seguimiento eliminada para aligerar la página */}
       </div>
     </main>
   );

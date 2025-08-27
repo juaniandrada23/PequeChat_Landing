@@ -40,6 +40,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-outline { @apply transition-none hover:scale-100; }
+  .motion-safe\:hidden-when-reduced { display: none !important; }
 }
 
 /* Focus improvements */
@@ -72,3 +73,7 @@ html {
 /* Utility for parallax layers */
 .parallax-layer[data-depth="1"] { transform: translateZ(0); }
 .supports-no-transforms .parallax-layer { transform: none !important; }
+
+/* Performance hints */
+.transform-gpu { transform: translateZ(0); }
+.will-change-transform { will-change: transform; }

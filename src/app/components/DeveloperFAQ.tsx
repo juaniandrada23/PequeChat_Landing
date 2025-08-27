@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown, Code, Shield, Zap } from "lucide-react";
 
@@ -63,14 +63,14 @@ export default function DeveloperFAQ() {
     <section className="py-24 bg-gradient-to-br from-azul8 to-white">
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
         <div className="text-center mb-16">
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-azul2 mb-4"
           >
             Preguntas Frecuentes
-          </motion.h2>
+          </m.h2>
           <p className="text-lg text-azul2/90">
             Todo lo que necesitas saber sobre el desarrollo de PequeChat
           </p>
@@ -98,7 +98,7 @@ export default function DeveloperFAQ() {
         </div>
 
         {/* Questions */}
-        <motion.div
+        <m.div
           key={activeCategory}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +106,7 @@ export default function DeveloperFAQ() {
           className="space-y-4"
         >
           {currentFAQ?.questions.map((item, index) => (
-            <motion.div
+            <m.div
               key={index}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -118,17 +118,17 @@ export default function DeveloperFAQ() {
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-azul8 transition-colors"
               >
                 <h3 className="font-semibold text-azul2 pr-4">{item.q}</h3>
-                <motion.div
+                <m.div
                   animate={{ rotate: openQuestion === index ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
                 >
                   <ChevronDown className="w-5 h-5 text-azul3" />
-                </motion.div>
+                </m.div>
               </button>
 
               <AnimatePresence>
                 {openQuestion === index && (
-                  <motion.div
+                  <m.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
@@ -138,12 +138,12 @@ export default function DeveloperFAQ() {
                     <div className="px-6 pb-6 text-azul2/90 leading-relaxed">
                       {item.a}
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

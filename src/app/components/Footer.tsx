@@ -1,13 +1,13 @@
 // src/components/Footer.tsx
 "use client";
 
-import { Github, Mail, Heart, MessageCircle, Instagram, Twitter, Shield } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-  <footer className="relative bg-gradient-to-tr from-azul1 via-azul2 to-azul3 backdrop-blur-md py-14 text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-tr from-azul1 via-azul2 to-azul3 backdrop-blur-md py-14 text-white overflow-hidden">
       {/* Patrones decorativos simples */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-8 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_50%,rgba(255,255,255,0)_100%)]"></div>
@@ -24,24 +24,20 @@ export default function Footer() {
           {/* Columna 1: Logo e información */}
           <div>
             <Link href="/" className="inline-block mb-5">
-              <div className="relative h-10 w-40">
+              <div className="relative h-15 w-15">
                 <Image
-                  src="/PequeLogo.png"
+                  src="/PequeLogoSinTexto.png"
                   alt="PequeChat Logo"
                   fill
                   className="object-contain"
                   sizes="(max-width: 768px) 160px, 160px"
-                  priority
+                  loading="lazy"
                 />
               </div>
             </Link>
             <p className="text-sm text-white/80 mb-5 max-w-xs">
               Plataforma de comunicación segura diseñada específicamente para niños, con control parental avanzado.
             </p>
-            <div className="flex items-center gap-1.5 text-xs text-white/70">
-              <Heart className="w-3.5 h-3.5 text-azul8 fill-azul8" />
-              <span>Hecho con amor en Argentina</span>
-            </div>
           </div>
           
           {/* Columna 2: Enlaces rápidos */}
@@ -50,19 +46,9 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="/features"
-                  className="text-white/80 hover:text-white text-sm flex items-center gap-2 transition-colors duration-200"
-                >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>Características</span>
-                </Link>
-              </li>
-              <li>
-                <Link 
                   href="/about"
                   className="text-white/80 hover:text-white text-sm flex items-center gap-2 transition-colors duration-200"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
                   <span>Nosotros</span>
                 </Link>
               </li>
@@ -115,24 +101,6 @@ export default function Footer() {
               className="transition-colors hover:text-azul8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               <Github size={20} aria-hidden="true" />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter"
-              className="transition-colors hover:text-azul8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <Twitter size={20} aria-hidden="true" />
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="transition-colors hover:text-azul8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <Instagram size={20} aria-hidden="true" />
             </a>
             <a
               href="mailto:contacto@pequechat.com?subject=Consulta%20sobre%20PequeChat"

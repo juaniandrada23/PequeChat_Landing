@@ -19,10 +19,10 @@ export default function RouteChangeFullScreenLoader() {
 
   if (isPending) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-azul3/90 via-azul4/95 to-azul5/90 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-gradient-to-br from-azul3/70 via-azul4/80 to-azul5/70 backdrop-blur-[2px] flex items-center justify-center z-50">
         <div className="text-center">
-          <Spinner sizeClass="w-20 h-20" colorClass="border-t-white" />
-          <p className="mt-4 text-white/90 text-lg font-medium">
+          <Spinner sizeClass="w-16 h-16" colorClass="border-t-white" />
+          <p className="mt-4 text-white/90 text-base font-medium">
             Cargando página...
           </p>
         </div>

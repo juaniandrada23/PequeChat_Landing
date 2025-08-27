@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Code, Database, Zap, Shield, Activity, Layers } from "lucide-react";
 
 const architectureFeatures = [
@@ -47,14 +47,14 @@ export default function ArchitectureShowcase() {
     <section className="py-24 bg-gradient-to-br from-azul8 to-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <div className="text-center mb-16">
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-azul2 mb-4"
           >
             Arquitectura Técnica Avanzada
-          </motion.h2>
+          </m.h2>
           <p className="text-lg text-azul2/90 max-w-2xl mx-auto">
             Construido con las mejores prácticas de desarrollo moderno y tecnologías de vanguardia
           </p>
@@ -62,7 +62,7 @@ export default function ArchitectureShowcase() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {architectureFeatures.map((feature, index) => (
-            <motion.div
+            <m.div
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -95,38 +95,9 @@ export default function ArchitectureShowcase() {
                   <span className="text-xs text-azul3 font-medium">Implementado</span>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
-
-        {/* Code Quality Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-azul3 to-azul1 rounded-2xl p-8 md:p-12 text-white"
-        >
-          <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-            Calidad y Mejores Prácticas
-          </h3>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">TypeScript</div>
-              <div className="text-white/80">Tipado estático completo</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">Modular</div>
-              <div className="text-white/80">Arquitectura escalable</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">Real-time</div>
-              <div className="text-white/80">Conexiones instantáneas</div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

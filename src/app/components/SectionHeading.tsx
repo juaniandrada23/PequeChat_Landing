@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ReactNode } from "react";
 
 interface SectionHeadingProps {
@@ -29,7 +29,7 @@ export default function SectionHeading({
       className={`mb-16 md:mb-20 ${isCenter ? "text-center" : "text-left"} ${className}`}
     >      
       {eyebrow && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -38,10 +38,10 @@ export default function SectionHeading({
         >
           <div className="w-2 h-2 rounded-full bg-blue-500" />
           {eyebrow}
-        </motion.div>
+        </m.div>
       )}
       
-      <motion.h2
+      <m.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -49,10 +49,10 @@ export default function SectionHeading({
         className="text-3xl md:text-5xl lg:text-6xl font-bold text-blue-900 tracking-tight leading-tight"
       >
         {title}
-      </motion.h2>
+      </m.h2>
 
       {description && (
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -60,7 +60,7 @@ export default function SectionHeading({
           className={`mt-6 text-lg md:text-xl text-blue-700/80 leading-relaxed max-w-3xl ${isCenter ? "mx-auto" : ""}`}
         >
           {description}
-        </motion.p>
+        </m.p>
       )}
     </div>
   );

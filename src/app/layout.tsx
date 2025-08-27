@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from "next";
 import { ReactNode } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import RouteChangeFullScreenLoader from "./components/RouteChangeFullScreenLoader";
 import { Fredoka } from "next/font/google";
+import MotionProvider from "./components/MotionProvider";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-  <html lang="es" className={fredoka.className} suppressHydrationWarning>
+    <html lang="es" className={fredoka.className} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -99,13 +99,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-  <body className="relative flex min-h-screen flex-col bg-gradient-to-br from-white via-azul8/20 to-azul9/30 transition-colors">
-        <RouteChangeFullScreenLoader />
-        <Header />
-        <main className="flex-grow" id="main-content">
-          {children}
-        </main>
-        <Footer />
+      <body className="relative flex min-h-screen flex-col bg-gradient-to-br from-white via-azul8/20 to-azul9/30 transition-colors motion-reduce:transition-none">
+        <MotionProvider>
+          <Header />
+          <main className="flex-grow" id="main-content">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

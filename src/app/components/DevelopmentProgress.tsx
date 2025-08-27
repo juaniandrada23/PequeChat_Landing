@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle2, Code, Database, Shield, Zap } from "lucide-react";
 
 const developmentStatus = [
@@ -39,14 +39,14 @@ export default function DevelopmentProgress() {
     <section className="py-24 bg-gradient-to-br from-azul8 to-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <div className="text-center mb-16">
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-azul2 mb-4"
           >
             Estado Actual del Desarrollo
-          </motion.h2>
+          </m.h2>
           <p className="text-lg text-azul2/90 max-w-2xl mx-auto">
             Progreso transparente de cada módulo y funcionalidad
           </p>
@@ -54,7 +54,7 @@ export default function DevelopmentProgress() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {developmentStatus.map((item, index) => (
-            <motion.div
+            <m.div
               key={item.module}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ export default function DevelopmentProgress() {
 
               <div className="mb-4">
                 <div className="w-full bg-azul7/40 rounded-full h-2">
-                  <motion.div
+                  <m.div
                     className="bg-gradient-to-r from-azul4 to-azul2 h-2 rounded-full"
                     initial={{ width: 0 }}
                     whileInView={{ width: `${item.progress}%` }}
@@ -97,7 +97,7 @@ export default function DevelopmentProgress() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>
